@@ -1,0 +1,36 @@
+<odoo>
+    <data noupdate="0">
+
+        <record model="ir.module.category" id="module_category_westborn_administration">
+            <field name="name">Westborn</field>
+            <field name="sequence">5</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record model="res.groups.privilege" id="beneficiary_management_category">
+            <field name="name">Beneficiary Management</field>
+            <field name="description">Access groups for Beneficiary, Referrer, and Admin roles.</field>
+            <field name="category_id" ref="westborn.module_category_westborn_administration"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Admin group -->
+        <record id="group_beneficiary_admin" model="res.groups">
+            <field name="name">Admin</field>
+            <field name="privilege_id" ref="beneficiary_management_category"/>
+        </record>
+
+        <!-- Referrer group -->
+        <record id="group_referrer_user" model="res.groups">
+            <field name="name">Referrer</field>
+            <field name="privilege_id" ref="beneficiary_management_category"/>
+        </record>
+
+        <!-- Beneficiary group -->
+        <record id="group_beneficiary_user" model="res.groups">
+            <field name="name">Beneficiary</field>
+            <field name="privilege_id" ref="beneficiary_management_category"/>
+        </record>
+
+    </data>
+</odoo>

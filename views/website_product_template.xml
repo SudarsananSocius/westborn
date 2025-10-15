@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="products_item" inherit_id="website_sale.products_item">
+        <xpath expr="//div[hasclass('product_price')]" position="attributes">
+            <attribute name="groups">user.has_group('westborn.group_beneficiary_admin')</attribute>
+        </xpath>
+
+        <xpath expr="//div[hasclass('product_price')]" position="after">
+            <t t-if="product.credit_value">
+                <div class="oe_product_credit_value">
+                    <span t-field="product.credit_value" />
+                    <span> Credit Value</span>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="loyalty_generate_wizard_view_form_inherit" model="ir.ui.view">
+        <field name="name">loyalty.generate.wizard.form</field>
+        <field name="model">loyalty.generate.wizard</field>
+        <field name="inherit_id" ref="loyalty.loyalty_generate_wizard_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form//field[@name='points_granted']" position="attributes">
+                <attribute name="groups">westborn.group_beneficiary_admin</attribute>
+            </xpath>
+            <xpath expr="//form//field[@name='points_granted']" position="after">
+                <field name="credit_points" class="oe_inline"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

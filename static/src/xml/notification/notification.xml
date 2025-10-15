@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="website_sale.cartLine_inherit" inherit_id="website_sale.cartLine">
+        <xpath expr="//div[@t-out='getFormattedPrice(line)']" position="after">
+            <t t-if="product.credit_value">
+                <div class="oe_product_credit_value">
+                    <span t-field="product.credit_value" />
+                    <span>Credit</span>
+                </div>
+            </t>
+        </xpath>
+        
+    </template>
+
+</odoo>

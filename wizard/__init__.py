@@ -1,0 +1,1 @@
+from . import loyality_generate_wizard
