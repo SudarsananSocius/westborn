@@ -8,7 +8,7 @@
             <xpath expr="//form//field[@name='points_granted']" position="attributes">
                 <attribute name="groups">westborn.group_beneficiary_admin</attribute>
             </xpath>
-            <xpath expr="//form//field[@name='points_granted']" position="after">
+            <xpath expr="//form//field[@name='valid_until']" position="before">
                 <field name="credit_points" class="oe_inline"/>
             </xpath>
         </field>

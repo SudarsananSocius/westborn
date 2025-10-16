@@ -4,31 +4,6 @@ from odoo.exceptions import ValidationError, UserError
 from odoo.tools import email_normalize
 
 
-class LoyaltyGenerateWizard(models.TransientModel):
-    _inherit = 'loyalty.generate.wizard'
-    _description = "Generate Gift Card Wizard"
-
-
-    def generate_coupons(self):
-        """ Override to check that the user has enough points to assign the requested
-        amount of points to the generated loyalty card. """
-        res = super().generate_coupons()
-        partners = self._get_partners()
-        user_partner_id = self.env.user.partner_id.id
-        cards = self.env['loyalty.card'].search([
-            ('partner_id', '=', user_partner_id),
-            ('points', '>', 0)
-        ])
-        assigned_points = sum(self.env['loyalty.card'].search([('create_uid', '=', self.env.user.id)]).mapped('assigned_points'))
-        total_points = sum(card.points - card.use_count for card in cards)
-        available_points = total_points - assigned_points
-        if total_points < (self.points_granted + assigned_points):
-            raise ValidationError(_("You can only assign a number of points less than or equal to your available points (%s).") % available_points)
-        if self.points_granted <= 0:
-            raise ValidationError(_("The number of points to redeem must be positive."))
-        res.assigned_points = self.points_granted
-        return res
-    
 class LoyaltyCard(models.Model):
     _inherit = 'loyalty.card'
 
@@ -43,6 +18,7 @@ class LoyaltyCard(models.Model):
     is_portal = fields.Boolean('Is Portal', compute='_compute_is_portal', store=True)
     invitation_sent = fields.Boolean(string="Invitation Sent", default=False)
     credit_points = fields.Integer(string="eWallet Credits value", help="Credit points assigned for this loyalty card.")
+    available_credits = fields.Integer(string="Available Credits", compute='_compute_available_credits', help="Available credit points of the loyalty card.")
     
     @api.depends('partner_id')
     def _compute_user_id(self):
@@ -72,12 +48,18 @@ class LoyaltyCard(models.Model):
             else:
                 portal_user.email_state = 'ok'
 
+    @api.depends('points', 'use_count')
+    def _compute_available_credits(self):
+        """ Compute the available credits of the loyalty card. """
+        for record in self:
+            record.available_credits = int(round(record.points / 20,2))
+
     @api.onchange('credit_points')
     def _onchange_credit_points(self):
         """ On change of credit points, update the points granted field. """
         if self.credit_points < 0:
             raise ValidationError(_("The number of credit points must be positive."))
-        self.points_granted = self.credit_points
+        self.points_granted = self.credit_points * 20
         
     
     @api.depends('user_id.is_portal_user')
@@ -168,12 +150,42 @@ class LoyaltyCardGenerateWizard(models.TransientModel):
 
     credit_points = fields.Integer(string="eWallet Credits value", help="Credit points assigned for this loyalty card.")
 
-    @api.onchange('credit_points')
+    @api.onchange('points_granted')
     def _onchange_credit_points(self):
         """ On change of credit points, update the points granted field. """
-        if self.credit_points < 0:
+        user_partner_id = self.env.user.partner_id.id
+        cards = self.env['loyalty.card'].search([
+            ('partner_id', '=', user_partner_id),
+            ('points', '>', 0)
+        ])
+        assigned_points = sum(self.env['loyalty.card'].search([('create_uid', '=', self.env.user.id)]).mapped('available_credits'))
+        total_points = sum(card.points for card in cards)
+        available_points = total_points - assigned_points
+        
+        if self.points_granted < 0:
             raise ValidationError(_("The number of credit points must be positive."))
-        self.points_granted = self.credit_points
+        self.credit_points = self.points_granted // 20
+
+    
+    def generate_coupons(self):
+        """ Override to check that the user has enough points to assign the requested
+        amount of points to the generated loyalty card. """
+        res = super().generate_coupons()
+        # partners = self._get_partners()
+        user_partner_id = self.env.user.partner_id.id
+        cards = self.env['loyalty.card'].search([
+            ('partner_id', '=', user_partner_id),
+            ('points', '>', 0)
+        ])
+        assigned_points = sum(self.env['loyalty.card'].search([('create_uid', '=', self.env.user.id)]).mapped('available_credits'))
+        total_points = sum(card.points for card in cards)
+        available_points = total_points - assigned_points
+        if total_points < (self.points_granted + assigned_points):
+            raise ValidationError(_("You can only assign a number of points less than or equal to your available points (%s).") % available_points)
+        if self.points_granted <= 0:
+            raise ValidationError(_("The number of points to redeem must be positive."))
+        res.assigned_points = self.points_granted
+        return res
     
 
 class MailComposeMessage(models.TransientModel):

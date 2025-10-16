@@ -7,7 +7,7 @@
     "license": 'AGPL-3',
     "description": """
     """,
-    "depends": ['base','web', 'mail', 'sale', 'sale_management', 'sale_loyalty', 'loyalty', 'website_sale', 'website'],
+    "depends": ['base','web', 'mail', 'sale', 'sale_management', 'sale_loyalty', 'loyalty', 'website_sale', 'website', 'website_sale_loyalty'],
     "data": [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -23,7 +23,7 @@
         'web.assets_backend': [
         ],
         'web.assets_frontend': [
-            'westborn/static/src/xml/notification.xml',
+            # 'westborn/static/src/xml/notification/notification.xml'
         ],
 
     },
