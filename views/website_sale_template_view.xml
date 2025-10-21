@@ -103,6 +103,41 @@
             <attribute name="class">d-none</attribute>
         </xpath>
     </template>
+     <template id="auto_apply_ewallet_inherit" inherit_id="website_sale_loyalty.modify_code_form">
+        <xpath expr="//button[@name='o_loyalty_claim']" position="after">
+            <script type="text/javascript">
+                // Apply eWallet when products are added to cart
+                function autoApplyEWallet() {
+                const useBtn = document.querySelector("button[name='o_loyalty_claim']");
+                const isEwalletApplied = document.querySelector('[data-reward-id]');
 
+                if (useBtn &amp;&amp; !isEwalletApplied) {
+                console.log('Auto-applying eWallet...');
+                useBtn.click();
+                return true;
+                }
+                return false;
+                }
+
+                autoApplyEWallet();
+
+                document.addEventListener('DOMContentLoaded', function() {
+                const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                setTimeout(autoApplyEWallet, 100);
+                }
+                });
+                });
+
+                // Watch for changes in the cart summary
+                const cartSummary = document.querySelector('.oe_cart');
+                if (cartSummary) {
+                observer.observe(cartSummary, { childList: true, subtree: true });
+                }
+                });
+            </script>
+        </xpath>
+    </template>
 
 </odoo>

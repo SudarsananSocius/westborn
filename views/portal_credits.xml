@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Replace total amounts with credits -->
+    <template id="inherit_sale_order_portal_content" inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//div[@id='total']" position="replace">
+            <div id="total" name="total" style="page-break-inside: avoid;">
+                <div class="col-xs-7 col-md-5 ms-auto">
+                    <table class="table table-sm">
+                        <tr>
+                            <td class="text-end">
+                                <strong>Total Credits:</strong>
+                            </td>
+                            <td class="text-end fw-bold">
+                                <span t-esc="sale_order.total_credits"/>
+                                Credits
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[@id='sales_order_table']//th[contains(@class, 'text-end') and not(contains(@id, 'product_name') or contains(@id, 'product_qty'))]"
+               position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <!-- Hide all price-related cells in table body -->
+        <xpath expr="//table[@id='sales_order_table']//td[contains(@class, 'text-end') and not(contains(@name, 'product_name') or contains(@name, 'product_quantity'))]"
+               position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <xpath expr="//td[@name='td_product_quantity']" position="after">
+            <td class="text-end fw-bold" name="td_total_credits">
+                <span t-esc="line.credit_points or 0"/>
+            </td>
+        </xpath>
+
+
+  <xpath expr="//div[@name='sol_table']" position="replace">
+        <t t-set="lines_to_report" t-value="sale_order._get_order_lines_to_report()"/>
+        <t t-set="display_discount" t-value="any(line.discount > 0 for line in lines_to_report)"/>
+        <t t-set="hide_taxes_details" t-value="False"/>
+<!--        <t t-set="display_taxes" t-value="not hide_taxes_details and any(line._has_taxes() for line in lines_to_report)"/>-->
+
+        <div name="sol_table" class="table-responsive">
+            <table t-att-data-order-id="sale_order.id"
+                   t-att-data-token="sale_order.access_token"
+                   class="table table-sm"
+                   id="sales_order_table">
+                <thead>
+                    <tr>
+                        <th class="text-start" id="product_name_header">Products</th>
+                        <th class="text-end" id="product_qty_header">Quantity</th>
+                        <th t-if="display_discount" class="text-end" id="product_discount_header">Disc.%</th>
+<!--                        <th t-if="display_taxes" class="text-end" id="taxes_header">Taxes</th>-->
+                        <th class="text-end" id="credits_header">Credits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="lines_to_report" t-as="line">
+                        <tr>
+                            <td class="text-start">
+                                <span t-esc="line.product_id.name"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="line.product_uom_qty"/>
+                            </td>
+<!--                            <td t-if="display_taxes" class="text-end">-->
+<!--                                <span t-esc="line.amount_tax"/>-->
+<!--                            </td>-->
+                            <td class="text-end">
+                                <span t-esc="line.credit_points or 0"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </xpath>
+    </template>
+
+    <template id="inherit_sale_order_portal_sign_modal" inherit_id="sale.sale_order_portal_sign_modal">
+        <!-- Replace amount with credits in sign modal -->
+        <xpath expr="//b[@data-id='total_amount']" position="replace">
+            <b>
+                <span t-esc="sale_order.total_credits"/>
+                Credits
+            </b>
+        </xpath>
+    </template>
+    <template id="inherit_sale_order_portal_pay_modal_amount_selector"
+              inherit_id="sale.sale_order_portal_pay_modal_amount_selector">
+        <!-- Replace amounts in payment option buttons -->
+        <xpath expr="//span[contains(@class, 'fw-bold')]" position="replace">
+            <span class="fw-bold">
+                <span t-esc="sale_order.total_credits"/>
+                Credits
+            </span>
+        </xpath>
+    </template>
+    <template id="inherit_sale_portal_my_orders" inherit_id="sale.portal_my_orders">
+        <!-- Hide the Total column in orders list -->
+        <xpath expr="//th[contains(@class, 'text-end') and contains(., 'Total')]" position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <!-- Hide price columns in order lines -->
+        <xpath expr="//td[contains(@class, 'text-end') and .//span[@t-field='order.amount_total']]"
+               position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+    </template>
+
+    <template id="inherit_sale_order_portal_sidebar" inherit_id="sale.sale_order_portal_template">
+    <!-- Replace the main amount in sidebar -->
+    <xpath expr="//h2[.//@t-field='sale_order.amount_total']" position="replace">
+        <h2 class="mb-0 text-break">
+            <span t-esc="sale_order.total_credits or 0"/> Credits
+        </h2>
+    </xpath>
+
+    <!-- Replace prepayment amount -->
+<!--    <xpath expr="//h2[contains(., 'prepayment')]" position="replace">-->
+<!--        <h2>-->
+<!--            <span t-esc="sale_order.total_credits or 0"/> Credits-->
+<!--        </h2>-->
+<!--    </xpath>-->
+
+    <!-- Replace amount paid -->
+    <xpath expr="//span[@t-field='sale_order.amount_paid']" position="replace">
+        <span><span t-esc="sale_order.total_credits or 0"/> Credits</span>
+    </xpath>
+</template>
+</odoo>
