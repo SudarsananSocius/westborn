@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-#
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
     def _get_total_credits(self):
         """ Compute the total credits of the SO. """
         for record in self:
-            record.ensure_one()
+            # record.ensure_one()
             total_credits_apply = 0
             total_credits = 0
             for line in record.order_line:
@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
                 total_credits += line.credit_points if line.product_id.name != 'eWallet' else 0
             # total_credits = sum(line.credit_points for line in record.order_line)
             record.total_credits = total_credits_apply
-            return total_credits
+            # return total_credits
     
     def _get_total_credit_points(self, coupon):
         """ Compute the total credit points of the user. """
