@@ -12,7 +12,7 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='list_price']" position="attributes">
-                <attribute name="groups" >westborn.group_beneficiary_admin</attribute>
+                <attribute name="groups" >Brightpath_UK.group_beneficiary_admin</attribute>
             </xpath>
         </field>
     </record>

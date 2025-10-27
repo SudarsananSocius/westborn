@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 {
-    "name": "Westborn",
+    "name": "BrightPath-UK",
     "version": "19.0.0.1",
     "category": "",
     "author": "",
@@ -10,6 +10,7 @@
     "depends": ['base','web', 'mail', 'sale', 'sale_management', 'sale_loyalty', 'loyalty', 'website_sale', 'website', 'website_sale_loyalty'],
     "data": [
         'security/security.xml',
+        'data/cron.xml',
         'security/ir.model.access.csv',
         'security/ir_rules.xml',
         'wizard/loyalty_generate_wizard_views.xml',
@@ -23,11 +24,12 @@
         'web.assets_backend': [
         ],
         'web.assets_frontend': [
-            'westborn/static/src/js/portal_price_dialogue.js',
-            'westborn/static/src/xml/notification/credit_notification.xml'
+            'Brightpath_UK/static/src/js/portal_price_dialogue.js',
+            'Brightpath_UK/static/src/xml/notification/credit_notification.xml'
         ],
 
     },
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'auto_install': False,
     'application': False,

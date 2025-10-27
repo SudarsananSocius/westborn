@@ -1,8 +1,8 @@
 <odoo>
     <data noupdate="0">
 
-        <record model="ir.module.category" id="module_category_westborn_administration">
-            <field name="name">Westborn</field>
+        <record model="ir.module.category" id="module_category_Brightpath_UK_administration">
+            <field name="name">Brightpath UK</field>
             <field name="sequence">5</field>
             <field name="parent_id" eval="False"/>
         </record>
@@ -10,7 +10,7 @@
         <record model="res.groups.privilege" id="beneficiary_management_category">
             <field name="name">Beneficiary Management</field>
             <field name="description">Access groups for Beneficiary, Referrer, and Admin roles.</field>
-            <field name="category_id" ref="westborn.module_category_westborn_administration"/>
+            <field name="category_id" ref="Brightpath_UK.module_category_Brightpath_UK_administration"/>
             <field name="sequence">10</field>
         </record>
 

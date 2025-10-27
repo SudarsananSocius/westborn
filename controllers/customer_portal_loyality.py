@@ -19,7 +19,7 @@ class CustomerPortalLoyalty(loyalty_portal.CustomerPortalLoyalty):
 
         if not card_sudo:
             return res
-        if self.env.user.has_group('westborn.group_beneficiary_admin'):
+        if self.env.user.has_group('Brightpath_UK.group_beneficiary_admin'):
             res['card']['group_admin'] = True
         else:
             res['card']['group_admin'] = False

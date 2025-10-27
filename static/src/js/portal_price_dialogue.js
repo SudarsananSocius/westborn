@@ -15,7 +15,7 @@ patch(ProductConfiguratorDialog.prototype, {
     setup() {
         super.setup(...arguments);
         onWillStart(async () => {
-            this.hasGroupAdmin = await user.hasGroup("westborn.group_beneficiary_admin");
+            this.hasGroupAdmin = await user.hasGroup("Brightpath_UK.group_beneficiary_admin");
         });
     },
 
@@ -63,7 +63,7 @@ patch(Product.prototype, {
     setup() {
         super.setup(...arguments);
         onWillStart(async () => {
-            this.hasGroupAdmin = await user.hasGroup("westborn.group_beneficiary_admin");
+            this.hasGroupAdmin = await user.hasGroup("Brightpath_UK.group_beneficiary_admin");
         });
     },
         /**
@@ -87,7 +87,7 @@ patch(AddToCartNotification.prototype, {
         super.setup(...arguments);
         onWillStart(async () => {
             this.mainLines[0].credit_point = await this.env.services.orm.call('sale.order.line', 'get_line_total_credit', [this.mainLines[0].id]);
-            this.hasGroupAdmin = await user.hasGroup("westborn.group_beneficiary_admin");
+            this.hasGroupAdmin = await user.hasGroup("Brightpath_UK.group_beneficiary_admin");
         });
     },
      /**

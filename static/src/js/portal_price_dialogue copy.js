@@ -34,7 +34,7 @@ patch(ProductConfiguratorDialog.prototype, {
 
         onWillStart(async () => {
             console.log("On will start called");
-            this.hasGroupAdmin = await user.hasGroup("westborn.group_beneficiary_admin");
+            this.hasGroupAdmin = await user.hasGroup("Brightpath_UK.group_beneficiary_admin");
         });
         onWillRender(async () => {
             console.log("On will render called");
@@ -74,7 +74,7 @@ patch(Product.prototype, {
         super.setup(...arguments);
         console.log("Patched ProductConfiguratorDialog for portal");
         onWillStart(async () => {
-            this.hasGroupAdmin = await user.hasGroup("westborn.group_beneficiary_admin");
+            this.hasGroupAdmin = await user.hasGroup("Brightpath_UK.group_beneficiary_admin");
         });
         onWillRender(async () => {
             console.log("On will render called");

@@ -7,7 +7,7 @@
             <field name="name">Product Category: Full Access for Admin</field>
             <field name="model_id" ref="product.model_product_template"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('westborn.group_beneficiary_admin'))]"/>
+            <field name="groups" eval="[(4, ref('Brightpath_UK.group_beneficiary_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -25,7 +25,7 @@
                 ('categ_id', '=', ref('product.product_category_goods'))
                 ]"
             />
-            <field name="groups" eval="[(4, ref('westborn.group_referrer_user'))]"/>
+            <field name="groups" eval="[(4, ref('Brightpath_UK.group_referrer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
@@ -37,7 +37,7 @@
             <field name="name">Product Category: Services for Beneficiary</field>
             <field name="model_id" ref="product.model_product_template"/>
             <field name="domain_force" eval="[('categ_id', '=', ref('product.product_category_services'))]"/>
-            <field name="groups" eval="[(4, ref('westborn.group_beneficiary_user'))]"/>
+            <field name="groups" eval="[(4, ref('Brightpath_UK.group_beneficiary_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>

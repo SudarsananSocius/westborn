@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="sale_order_inherit_view_westborn" model="ir.ui.view">
+    <record id="sale_order_inherit_view_Brightpath_UK" model="ir.ui.view">
         <field name="name">sale.order.inherit.view</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
             <!-- <xpath expr="//field[@name='order_line']//list//field[@name='price_unit']" position="attributes">
-                <attribute name="groups">westborn.group_beneficiary_admin,westborn.group_referrer_user
+                <attribute name="groups">Brightpath_UK.group_beneficiary_admin,Brightpath_UK.group_referrer_user
                 </attribute>
             </xpath> -->
             <!-- <xpath expr="//field[@name='order_line']//list//field[@name='price_subtotal']" position="attributes">
                 <attribute name="groups">
-                    base.group_user,westborn.group_beneficiary_admin,westborn.group_referrer_user,westborn.group_beneficiary_admin
+                    base.group_user,Brightpath_UK.group_beneficiary_admin,Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin
                 </attribute>
             </xpath> -->
             <!-- <xpath expr="//field[@name='order_line']//list//field[@name='tax_ids']" position="attributes">
                 <attribute name="groups">
-                    base.group_user,westborn.group_beneficiary_admin,westborn.group_referrer_user,westborn.group_beneficiary_admin
+                    base.group_user,Brightpath_UK.group_beneficiary_admin,Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin
                 </attribute>
             </xpath> -->
 
             <!-- <xpath expr="//field[@name='order_line']//list//field[@name='price_total']" position="attributes">
                 <attribute name="groups">
-                    base.group_user,westborn.group_beneficiary_admin,westborn.group_referrer_user,westborn.group_beneficiary_admin
+                    base.group_user,Brightpath_UK.group_beneficiary_admin,Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin
                 </attribute>
             </xpath> -->
 
@@ -35,13 +35,13 @@
                     <field name="total_credits"
                            string="Total Credits"
                            readonly="1"
-                           groups="base.group_user,westborn.group_referrer_user,westborn.group_beneficiary_admin,westborn.group_beneficiary_user"/>
+                           groups="base.group_user,Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin,Brightpath_UK.group_beneficiary_user"/>
                     <field name="amount_untaxed"
                            readonly="1"
-                           groups="westborn.group_referrer_user,westborn.group_beneficiary_admin"/>
+                           groups="Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin"/>
                     <field name="amount_total"
                            readonly="1"
-                           groups="westborn.group_referrer_user,westborn.group_beneficiary_admin"/>
+                           groups="Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin"/>
                 </group>
             </xpath> -->
         </field>
@@ -57,22 +57,22 @@
         <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
         <field name="arch" type="xml">
             <xpath expr="//list//field[@name='amount_total']" position="attributes">
-                <attribute name="groups">westborn.group_referrer_user,westborn.group_beneficiary_admin
+                <attribute name="groups">Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin
                 </attribute>
             </xpath>
             <xpath expr="//list//field[@name='amount_tax']" position="attributes">
-            <attribute name="groups">base.group_users,westborn.group_referrer_user,westborn.group_beneficiary_admin
+            <attribute name="groups">base.group_users,Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin
             </attribute>
             </xpath>
             <xpath expr="//list//field[@name='amount_untaxed']" position="attributes">
-                <attribute name="groups">westborn.group_referrer_user,westborn.group_beneficiary_admin
+                <attribute name="groups">Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin
                 </attribute>
             </xpath>
             <xpath expr="//list//field[@name='amount_total']" position="after">
                 <field name="total_credits"
                        string="Total Credits"
                        readonly="1"
-                       groups="base.group_user,westborn.group_referrer_user,westborn.group_beneficiary_admin,westborn.group_beneficiary_user"/>
+                       groups="base.group_user,Brightpath_UK.group_referrer_user,Brightpath_UK.group_beneficiary_admin,Brightpath_UK.group_beneficiary_user"/>
             </xpath>
         </field>
     </record> -->

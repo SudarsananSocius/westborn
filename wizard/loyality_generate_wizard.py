@@ -51,15 +51,25 @@ class LoyaltyCard(models.Model):
     @api.depends('points', 'use_count')
     def _compute_available_credits(self):
         """ Compute the available credits of the loyalty card. """
+        credit_val = self.search([('name', '=', 'Top-up eWallet')], limit=1)
+        if credit_val:
+            list_price = credit_val.list_price
+        else:
+            list_price = 20
         for record in self:
-            record.available_credits = int(round(record.points / 20,2))
+            record.available_credits = int(round(record.points / list_price,2))
 
     @api.onchange('credit_points')
     def _onchange_credit_points(self):
         """ On change of credit points, update the points granted field. """
+        credit_val = self.search([('name', '=', 'Top-up eWallet')], limit=1)
+        if credit_val:
+            list_price = credit_val.list_price
+        else:
+            list_price = 20
         if self.credit_points < 0:
             raise ValidationError(_("The number of credit points must be positive."))
-        self.points_granted = self.credit_points * 20
+        self.points_granted = self.credit_points * list_price
         
     
     @api.depends('user_id.is_portal_user')
@@ -152,8 +162,13 @@ class LoyaltyHistory(models.Model):
     @api.depends('points')
     def _compute_credit_point(self):
         """ Compute the credit points based on the loyalty history points. """
+        credit_val = self.search([('name', '=', 'Top-up eWallet')], limit=1)
+        if credit_val:
+            list_price = credit_val.list_price
+        else:
+            list_price = 20
         for record in self:
-            record.credit_point = int(record.points / 20)
+            record.credit_point = int(record.points / list_price)
     
 class LoyaltyCardGenerateWizard(models.TransientModel):
     _inherit = 'loyalty.generate.wizard'
@@ -172,10 +187,14 @@ class LoyaltyCardGenerateWizard(models.TransientModel):
         assigned_points = sum(self.env['loyalty.card'].search([('create_uid', '=', self.env.user.id)]).mapped('available_credits'))
         total_points = sum(card.points for card in cards)
         available_points = total_points - assigned_points
-        
+        credit_val = self.search([('name', '=', 'Top-up eWallet')], limit=1)
+        if credit_val:
+            list_price = credit_val.list_price
+        else:
+            list_price = 20
         if self.points_granted < 0:
             raise ValidationError(_("The number of credit points must be positive."))
-        self.credit_points = self.points_granted // 20
+        self.credit_points = self.points_granted // list_price
 
     
     def generate_coupons(self):

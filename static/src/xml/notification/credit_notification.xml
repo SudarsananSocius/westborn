@@ -9,8 +9,5 @@
                 <!-- <span class="text-end col-5" t-out="props.card.available_credits + ' Credits'"></span> -->
             </t>
         </xpath>
-        <!-- <xpath expr="//div[@name='history_lines']//t//div//div[@t-out='line.points']" position="attributes">
-            <attribute name="t-if">props.card.group_admin</attribute>
-        </xpath> -->
     </t>
 </templates>

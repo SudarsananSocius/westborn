@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-#
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
@@ -11,10 +11,15 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id', 'product_uom_qty', 'price_unit')
     def _compute_credit_amount(self):
         """ Compute the amounts of the SO line. """
+        credit_val = self.search([('name', '=', 'Top-up eWallet')], limit=1)
+        if credit_val:
+            list_price = credit_val.list_price
+        else:
+            list_price = 20
         for line in self:
             if line.product_id and line.product_id.credit_value:
                 # line.credit_points = int(line.price_unit)
-                line.credit_points = float(line.price_subtotal / 20)
+                line.credit_points = float(line.price_subtotal / list_price)
             else:
                 line.credit_points = 0
     
@@ -32,12 +37,12 @@ class SaleOrder(models.Model):
         """ Compute the total credits of the SO. """
         for record in self:
             record.ensure_one()
+            # record.ensure_one()
             total_credits = 0
             for line in record.order_line:
                 total_credits += line.credit_points if line.product_id.name != 'eWallet' else 0
             record.total_credits = total_credits
             return total_credits
-        return 0
     
     def get_total_credit_apply(self):
         total_credits_apply = 0
@@ -45,11 +50,18 @@ class SaleOrder(models.Model):
             for line in record.order_line:
                 total_credits_apply += line.credit_points
             record.total_credits_apply = total_credits_apply
-        return 0
+            # total_credits = sum(line.credit_points for line in record.order_line)
+            # record.total_credits = total_credits_apply
+            # return total_credits
     
     def _get_total_credit_points(self, coupon):
         """ Compute the total credit points of the user. """
         self.ensure_one()
+        credit_val = self.search([('name', '=', 'Top-up eWallet')], limit=1)
+        if credit_val:
+            list_price = credit_val.list_price
+        else:
+            list_price = 20
         points = coupon.points
         if self.state not in ('sale', 'done'):
             if coupon.program_id.applies_on != 'future':
@@ -58,7 +70,7 @@ class SaleOrder(models.Model):
             # Points already used by rewards
             points -= sum(self.order_line.filtered(lambda l: l.coupon_id == coupon).mapped('points_cost'))
         points = coupon.currency_id.round(points)
-        credits = points / 20
+        credits = points / list_price
         self.total_credits_apply = credits
         return credits
     
