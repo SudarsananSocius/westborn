@@ -144,6 +144,17 @@ class LoyaltyCard(models.Model):
 
         return True
     
+class LoyaltyHistory(models.Model):
+    _inherit = 'loyalty.history'
+
+    credit_point = fields.Integer(string="eWallet Credits", help="Credit points assigned for this loyalty history.")
+
+    @api.depends('points')
+    def _compute_credit_point(self):
+        """ Compute the credit points based on the loyalty history points. """
+        for record in self:
+            record.credit_point = int(record.points / 20)
+    
 class LoyaltyCardGenerateWizard(models.TransientModel):
     _inherit = 'loyalty.generate.wizard'
     _description = "Loyalty Card Generate Wizard"

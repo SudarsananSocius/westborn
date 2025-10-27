@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- <record id="sale_order_inherit_view_westborn" model="ir.ui.view">
+    <record id="sale_order_inherit_view_westborn" model="ir.ui.view">
         <field name="name">sale.order.inherit.view</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='order_line']//list//field[@name='price_unit']" position="attributes">
+            <!-- <xpath expr="//field[@name='order_line']//list//field[@name='price_unit']" position="attributes">
                 <attribute name="groups">westborn.group_beneficiary_admin,westborn.group_referrer_user
                 </attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']//list//field[@name='price_subtotal']" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//field[@name='order_line']//list//field[@name='price_subtotal']" position="attributes">
                 <attribute name="groups">
                     base.group_user,westborn.group_beneficiary_admin,westborn.group_referrer_user,westborn.group_beneficiary_admin
                 </attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']//list//field[@name='tax_ids']" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//field[@name='order_line']//list//field[@name='tax_ids']" position="attributes">
                 <attribute name="groups">
                     base.group_user,westborn.group_beneficiary_admin,westborn.group_referrer_user,westborn.group_beneficiary_admin
                 </attribute>
-            </xpath>
+            </xpath> -->
 
-            <xpath expr="//field[@name='order_line']//list//field[@name='price_total']" position="attributes">
+            <!-- <xpath expr="//field[@name='order_line']//list//field[@name='price_total']" position="attributes">
                 <attribute name="groups">
                     base.group_user,westborn.group_beneficiary_admin,westborn.group_referrer_user,westborn.group_beneficiary_admin
                 </attribute>
-            </xpath>
+            </xpath> -->
 
             <xpath expr="//field[@name='order_line']//list//field[@name='price_unit']" position="after">
-                <field name="credit_points" readonly="1"
-                       groups="base.group_user,westborn.group_referrer_user,westborn.group_beneficiary_admin,westborn.group_beneficiary_user"/>
+                <field name="credit_points" readonly="1" />
             </xpath>
-            <xpath expr="//group[contains(@class, 'oe_subtotal_footer')]" position="replace">
+            <!-- <xpath expr="//group[contains(@class, 'oe_subtotal_footer')]" position="replace">
                 <group class="oe_subtotal_footer">
                     <field name="total_credits"
                            string="Total Credits"
@@ -44,9 +43,9 @@
                            readonly="1"
                            groups="westborn.group_referrer_user,westborn.group_beneficiary_admin"/>
                 </group>
-            </xpath>
+            </xpath> -->
         </field>
-    </record> -->
+    </record>
 
     <!-- ======================= -->
     <!-- Sale Order Tree View   -->

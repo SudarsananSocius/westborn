@@ -103,6 +103,34 @@
             <attribute name="class">d-none</attribute>
         </xpath>
     </template>
+    <template id="filter_products_price_inherit" inherit_id="website_sale.filter_products_price">
+        <xpath expr="//div[@id='o_wsale_price_range_option']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+        
+    </template>
+    <template id="portal_my_orders_inherit" inherit_id="sale.portal_my_orders">
+        <xpath expr="//th[@name='order_total']" position="after">
+            <th name="credit_points" class="text-end">Credit Points</th>
+        </xpath>
+        <xpath expr="//td[@name='order_amount_total']" position="after">
+            <td name="credit_points" class="text-end">
+                <span t-field="order.total_credits_apply" />
+            </td>
+        </xpath>
+        <xpath expr="//th[@name='order_total']" position="attributes">
+            <attribute name="groups">westborn.group_beneficiary_admin</attribute>
+        </xpath>
+        <xpath expr="//td[@name='order_amount_total']" position="attributes">
+            <attribute name="groups">westborn.group_beneficiary_admin</attribute>
+        </xpath>
+        
+    </template>
+
+    <!-- <template id="sale_order_portal_loyalty_content_inherit" name="sale_loyalty.sale_order_portal_loyalty_content">
+
+        
+    </template> -->
 
 
 </odoo>

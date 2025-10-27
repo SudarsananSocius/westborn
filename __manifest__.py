@@ -23,7 +23,8 @@
         'web.assets_backend': [
         ],
         'web.assets_frontend': [
-            # 'westborn/static/src/xml/notification/notification.xml'
+            'westborn/static/src/js/portal_price_dialogue.js',
+            'westborn/static/src/xml/notification/credit_notification.xml'
         ],
 
     },

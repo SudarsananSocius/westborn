@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.http import route
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'

@@ -1,0 +1,16 @@
+<templates>
+    <t t-inherit="loyalty.portal_loyalty_card_dialog" t-inherit-mode="extension">
+        <xpath expr="//div[@name='history_lines']//t//div//div[@t-out='line.points']" position="replace">
+            <t t-if="props.card.group_admin">
+                <span t-out="line.points" class="text-end col-5"/>
+            </t>
+            <t t-else="">
+                <div t-out="line.credit_point" class="text-end col-5"/>
+                <!-- <span class="text-end col-5" t-out="props.card.available_credits + ' Credits'"></span> -->
+            </t>
+        </xpath>
+        <!-- <xpath expr="//div[@name='history_lines']//t//div//div[@t-out='line.points']" position="attributes">
+            <attribute name="t-if">props.card.group_admin</attribute>
+        </xpath> -->
+    </t>
+</templates>
