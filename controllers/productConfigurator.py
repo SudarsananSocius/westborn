@@ -3,7 +3,7 @@ from odoo.addons.sale.controllers.product_configurator import SaleProductConfigu
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
-class Brightpath_UKProductConfiguratorController(SaleProductConfiguratorController, WebsiteSale):
+class BrightpathProductConfiguratorController(SaleProductConfiguratorController, WebsiteSale):
     
     @route(
         route='/website_sale/product_configurator/get_values',

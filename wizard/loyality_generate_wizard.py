@@ -230,3 +230,56 @@ class MailComposeMessage(models.TransientModel):
             card = self.env['loyalty.card'].browse(active_id)
             card.invitation_sent = True
         return super().action_send_mail()
+    
+from odoo import models, fields, api
+from datetime import date
+
+class LoyaltyPoints(models.Model):
+    _inherit = 'loyalty.points'
+
+    credited = fields.Boolean(string="Credited", default=False)
+
+    @api.model
+    def _cron_expire_points(self):
+        """Override to refund expired points as credit notes."""
+        today = fields.Date.today()
+
+        expired_points = self.search([
+            ('state', '=', 'active'),
+            ('expiration_date', '<', today),
+            ('credited', '=', False)
+        ])
+
+        for point in expired_points:
+            program = point.program_id
+            partner = point.card_id.partner_id
+            company = program.company_id
+
+            # calculate refund value
+            refund_amount = point.points * program.point_value
+
+            if refund_amount <= 0:
+                continue
+
+            # Create Credit Note (Refund Invoice)
+            move_vals = {
+                'move_type': 'out_refund',
+                'partner_id': partner.id,
+                'invoice_date': fields.Date.today(),
+                'company_id': company.id,
+                'invoice_line_ids': [(0, 0, {
+                    'name': f'Loyalty Points Expired - {point.name or program.name}',
+                    'quantity': 1,
+                    'price_unit': -refund_amount,  # negative refund amount
+                })],
+                'ref': f'Loyalty Expiry Refund ({point.points} pts)',
+            }
+
+            credit_note = self.env['account.move'].create(move_vals)
+            credit_note.action_post()
+
+            # Mark point as credited
+            point.write({
+                'state': 'expired',
+                'credited': True
+            })
